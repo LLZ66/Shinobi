@@ -1,0 +1,82 @@
+
+
+<!-- // // select * from Monitors
+// // data.forEach(monitor => {
+// //     monitor = JSON.parse(monitor)
+// //     position = monitor.x+','+monitor.y
+// // });
+// fakedata = [{'x':'120.154141','y':'50.123451'},
+//             {'x':'130.154141','y':'52.123451'}
+// ]
+// fakedata.forEach(data => {
+//     console.log(typeof(Number(data.x)))
+// });
+// data = JSON.stringify(fakedata)
+// // var positions = []
+// // Object.keys(fakedata).forEach(function(key){
+// //     data = JSON.parse(fakedata[key])
+// //     console.log(data)
+// // })
+
+// // fakedata.forEach(data => {
+// //     data = JSON.parse(data)
+// //     position = data.x+','+data.y
+// //     positions.push(position)
+// // });
+// // console.log(positions)
+// s.sqlQuery('SELECT x,y From Monitors',function(er,r){
+//     positions = r
+//     s.renderPage(req,res,config.webPaths.home,{
+//         positions:positions
+//     },function(err,html){
+//         if(err){
+//             s.systemLog(err)
+//         }
+//         res.end(html)
+//     })
+// }) -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:500px;}
+		p{margin-left:5px; font-size:14px;}
+	</style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=RXfpwKtT9pqZFeP3VlnSDfAbkVFDQnsw"></script>
+    <script src="../libs/js/jquery.min.js"></script>
+	<title>添加复杂内容的信息窗口</title>
+</head>
+<body>
+	<div id="allmap"></div>
+	<p>点击标注点，可查看由文本，图片构成的复杂型信息窗口</p>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var sContent =
+	"<h4 style='margin:0 0 5px 0;padding:0.2em 0' class='test'>天安门</h4>" + 
+	"<img style='float:right;margin:4px' id='imgDemo' src='../img/tianAnMen.jpg' width='139' height='104' title='天安门'/>" + 
+	"<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>天安门坐落在中国北京市中心,故宫的南侧,与天安门广场隔长安街相望,是清朝皇城的大门...</p>" + 
+	"</div>";
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.404, 39.915);
+	var marker = new BMap.Marker(point);
+	var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+	map.centerAndZoom(point, 15);
+	map.addOverlay(marker);
+	marker.addEventListener("click", function(){          
+	   this.openInfoWindow(infoWindow);
+	   //图片加载完毕重绘infowindow
+	   document.getElementById('imgDemo').onload = function (){
+		   infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+	   }
+	   if(!$('.test').val()){
+		console.log('21222')
+	   }
+	   console.log()
+	});
+	
+</script>
